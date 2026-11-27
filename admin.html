@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Administrador</title>
+</head>
+
+<body>
+
+<h1>Panel Administrador</h1>
+
+<button onclick="sortear()">
+🎲 Iniciar Sorteo
+</button>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+import {
+getFirestore,
+doc,
+updateDoc
+}
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyDDA56p44wW_kWFP9qC1iF-qLHImhJ68hw",
+authDomain: "pasanaco-b416e.firebaseapp.com",
+projectId: "pasanaco-b416e",
+storageBucket: "pasanaco-b416e.firebasestorage.app",
+messagingSenderId: "934737854131",
+appId: "1:934737854131:web:5691feff6bcdf3313f3ac6"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const participantes = [
+"Santiago",
+"Jugador 2",
+"Jugador 3",
+"Jugador 4"
+];
+
+window.sortear = async function(){
+
+const ganador =
+participantes[
+Math.floor(
+Math.random()*participantes.length
+)
+];
+
+await updateDoc(
+doc(db,"Sorteo","Resultado"),
+{
+Ganador: ganador,
+fecha: new Date().toLocaleString()
+}
+);
+
+alert("Ganó: " + ganador);
+
+}
+
+</script>
+
+</body>
+
+</html>
