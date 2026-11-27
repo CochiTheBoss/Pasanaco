@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>Sorteo Pasanaco</title>
@@ -9,21 +10,14 @@
 body{
 font-family:Arial;
 text-align:center;
-background:#f0f0f0;
-padding:30px;
+padding-top:100px;
+background:#f4f4f4;
 }
 
-#nombre{
+#ganador{
 font-size:50px;
 font-weight:bold;
-margin:30px;
-color:#0066cc;
-}
-
-button{
-font-size:22px;
-padding:15px 30px;
-cursor:pointer;
+color:#0077cc;
 }
 
 </style>
@@ -32,61 +26,50 @@ cursor:pointer;
 
 <body>
 
-<h1>PASANACO</h1>
+<h1>Sorteo Pasanaco</h1>
 
-<div id="nombre">
-Presiona Sortear
+<div id="ganador">
+Esperando sorteo...
 </div>
 
-<button onclick="sortear()">
-🎲 SORTEAR
-</button>
+<script type="module">
 
-<script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
 
-const participantes = [
-"1",
-"2",
-"3",
-"4",
-"5",
-"6",
-"7",
-"8",
-"9",
-"10",
-];
+import {
+getFirestore,
+doc,
+onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-function sortear(){
+const firebaseConfig = {
+apiKey: "AIzaSyDDA56p44wW_kWFP9qC1iF-qLHImhJ68hw",
+authDomain: "pasanaco-b416e.firebaseapp.com",
+projectId: "pasanaco-b416e",
+storageBucket: "pasanaco-b416e.firebasestorage.app",
+messagingSenderId: "934737854131",
+appId: "1:934737854131:web:5691feff6bcdf3313f3ac6"
+};
 
-let vueltas = 0;
+const app = initializeApp(firebaseConfig);
 
-let intervalo = setInterval(()=>{
+const db = getFirestore(app);
 
-let aleatorio =
-participantes[Math.floor(Math.random()*participantes.length)];
+onSnapshot(
+doc(db,"Sorteo","Resultado"),
+(docSnap)=>{
 
-document.getElementById("nombre").innerText = aleatorio;
+const datos = docSnap.data();
 
-vueltas++;
-
-if(vueltas > 40){
-
-clearInterval(intervalo);
-
-let ganador =
-participantes[Math.floor(Math.random()*participantes.length)];
-
-document.getElementById("nombre").innerText =
-"🏆 " + ganador;
+document.getElementById("ganador")
+.innerText = datos.Ganador;
 
 }
-
-},100);
-
-}
+);
 
 </script>
 
 </body>
+
 </html>
